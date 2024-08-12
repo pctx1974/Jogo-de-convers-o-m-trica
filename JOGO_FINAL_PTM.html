@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Conversão Métrica para Enfermagem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .game-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        input {
+            margin: 10px 0;
+            padding: 5px;
+        }
+        button {
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Jogo de Conversão Métrica para Enfermagem</h1>
+        <p id="question"></p>
+        <input type="number" id="userAnswer" placeholder="Sua resposta">
+        <button onclick="checkAnswer()">Verificar</button>
+        <p id="result"></p>
+        <p id="score">Pontuação: 0</p>
+        <p id="questionCount">Questão 1 de 20</p>
+    </div>
+
+    <script>
+        let score = 0;
+        let currentQuestionIndex = 0;
+        const questions = [
+            { question: "Um comprimido contém 0.5g de medicamento. Quantos mg isso representa?", answer: 500 },
+            { question: "Se um comprimido tem 0.25g de princípio ativo, quantos mg possui?", answer: 250 },
+            { question: "Um antibiótico vem em comprimidos de 0.75g. Quantos mg há em cada comprimido?", answer: 750 },
+            { question: "Um analgésico contém 0.6g por comprimido. Quantos mg isso equivale?", answer: 600 },
+            { question: "Se a dose prescrita é de 1.2g, quantos mg o paciente deve tomar?", answer: 1200 },
+            { question: "Um anti-inflamatório vem em cápsulas de 0.4g. Quantos mg há em cada cápsula?", answer: 400 },
+            { question: "A dosagem de um medicamento é 0.9g. Quantos mg isso representa?", answer: 900 },
+            { question: "Um comprimido de vitamina C contém 0.3g. Quantos mg isso equivale?", answer: 300 },
+            { question: "Se um paciente precisa tomar 1.5g de um medicamento, quantos mg ele tomará?", answer: 1500 },
+            { question: "Um suplemento mineral vem em comprimidos de 0.8g. Quantos mg há em cada comprimido?", answer: 800 },
+            { question: "Converta 2.3g para mg", answer: 2300 },
+            { question: "Converta 0.8g para mg", answer: 800 },
+            { question: "Converta 0.5g para mg", answer: 500 },
+            { question: "Converta 0.2g para mg", answer: 200 },
+            { question: "Converta 0.1g para mg", answer: 100 },
+            { question: "Converta 2l para ml", answer: 2000 },
+            { question: "Converta 0.6l para ml", answer: 600 },
+            { question: "Converta 0.15l para ml", answer: 150 },
+            { question: "Converta 3.2l para ml", answer: 3200 },
+            { question: "Converta 0.52l para ml", answer: 520 }
+        ];
+
+        function displayQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                const currentQuestion = questions[currentQuestionIndex];
+                document.getElementById('question').textContent = currentQuestion.question;
+                document.getElementById('questionCount').textContent = `Questão ${currentQuestionIndex + 1} de ${questions.length}`;
+            } else {
+                endGame();
+            }
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseFloat(document.getElementById('userAnswer').value);
+            const result = document.getElementById('result');
+            const correctAnswer = questions[currentQuestionIndex].answer;
+
+            if (Math.abs(userAnswer - correctAnswer) < 0.1) {
+                result.textContent = "Correto!";
+                score++;
+            } else {
+                result.textContent = `Incorreto. A resposta correta é ${correctAnswer}.`;
+            }
+
+            document.getElementById('score').textContent = `Pontuação: ${score}`;
+            document.getElementById('userAnswer').value = '';
+            
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            document.getElementById('question').textContent = "Jogo terminado!";
+            document.getElementById('userAnswer').style.display = 'none';
+            document.querySelector('button').style.display = 'none';
+            document.getElementById('result').textContent = `Sua pontuação final é: ${score} de ${questions.length}`;
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>
